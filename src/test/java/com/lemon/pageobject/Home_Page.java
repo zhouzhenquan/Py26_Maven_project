@@ -24,7 +24,8 @@ public class Home_Page extends Base_Page {
     private By myLemonBy = By.id("com.lemon.lemonban:id/navigation_my");
     //点击头像登录
     private By portraitLoginBy = By.id("com.lemon.lemonban:id/fragment_my_lemon_avatar_layout");
-
+    //用户名元素
+    private By userNameBy = By.id("com.lemon.lemonban:id/fragment_my_lemon_avatar_title");
 
     //点击我的柠檬
     public void clickMyLemon() {
@@ -35,6 +36,12 @@ public class Home_Page extends Base_Page {
     public void clickPortraitLoginBy() {
         waitElementClickable(androidDriver,portraitLoginBy).click();
     }
+
+    //获取用户名
+    public String getUserName(){
+        return waitElementClickable(androidDriver,userNameBy).getText();
+    }
+
 
 
 }

@@ -28,7 +28,19 @@ public class Base_Page {
         return webElement;
     }
 
+    //等待元素dom存在
+    public WebElement waitElementExist(AndroidDriver androidDriver,By by){
+        WebDriverWait webDriverWait = new WebDriverWait(androidDriver,10);
+        WebElement webElement = webDriverWait.until(ExpectedConditions.presenceOfElementLocated(by));
+        return webElement;
+    }
 
+    //获取toast文本值
+    public String  getToastText(AndroidDriver androidDriver,String toastText){
+        By by = By.xpath("//*[contains(@text,'" + toastText + "')]");
+        return waitElementExist(androidDriver,by).getText();
+
+    }
 }
 
 

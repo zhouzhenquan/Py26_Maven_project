@@ -3,9 +3,15 @@ package com.lemon.testcase;
 import com.lemon.pageobject.Home_Page;
 import com.lemon.pageobject.Login_Page;
 import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.remoting.support.UrlBasedRemoteAccessor;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -44,14 +50,44 @@ public class Login_Test {
     }
 
 
-    @Test
-    public void test_login_failure() throws InterruptedException {
+    @Test(dataProvider = "getLoginFailureDatas")
+    public void test_login_failure(String mobilephone, String password, String toastText) throws InterruptedException {
 
         Login_Page login_page = new Login_Page(androidDriver);
-        login_page.inputMobilephone("12345678978");
-        login_page.inputPassword("123456");
+        login_page.inputMobilephone(mobilephone);
+        login_page.inputPassword(password);
         login_page.clickLogin();
 
+        //断言 toast信息
+        String actualValue = login_page.getToastText(androidDriver,toastText);
+        String expectedValue = toastText;
+        Assert.assertEquals(actualValue, expectedValue);
+
+    }
+
+    @Test
+    public void test_login_success(){
+
+        Login_Page login_page = new Login_Page(androidDriver);
+        login_page.inputMobilephone("13323234545");
+        login_page.inputPassword("234545");
+        login_page.clickLogin();
+
+        Home_Page home_page =new Home_Page(androidDriver);
+        String actualValue02 = home_page.getUserName();
+        String expectedValue02 = "歪歪";
+        Assert.assertEquals(actualValue02,expectedValue02);
+
+
+
+    }
+
+    @DataProvider
+    public Object[][] getLoginFailureDatas() {
+        Object[][] datas = {{"13323234545", "123456", "错误的账号信息"},
+                {"1332323454", "123456", "手机号码格式不正确"},
+                {"", "123456", "手机号码或密码不能为空"}};
+        return datas;
     }
 }
 
