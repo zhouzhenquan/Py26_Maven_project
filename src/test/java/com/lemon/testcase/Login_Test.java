@@ -1,23 +1,14 @@
 package com.lemon.testcase;
 
+import com.lemon.common.BaseTest;
+import com.lemon.common.Base_Page;
 import com.lemon.pageobject.Home_Page;
 import com.lemon.pageobject.Login_Page;
-import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.remoting.support.UrlBasedRemoteAccessor;
+import com.lemon.testdatas.Constants;
+import com.lemon.testdatas.LoginDatas;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
-import java.lang.reflect.MalformedParameterizedTypeException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * @author 周振全
@@ -25,32 +16,19 @@ import java.net.URL;
  * @date 2020/7/6 19:53
  * @Copyright:杭州盛和游戏网络技术有限公司. All rights reserved.
  */
-public class Login_Test {
-    public AndroidDriver androidDriver;
-
-    @Parameters({"deviceName", "platformName", "appPackage", "appActivity", "appiumUrl"})
-    @BeforeTest
-    public void setUp(String deviceName, String platformName, String appPackage, String appActivity, String appiumUrl) throws MalformedURLException, InterruptedException {
+public class Login_Test extends BaseTest {
 
 
-        //前置条件：1、打开测试App 2、进入到登录页面
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setCapability("deviceName", deviceName);
-        desiredCapabilities.setCapability("platformName", platformName);
-        desiredCapabilities.setCapability("appPackage", appPackage);
-        desiredCapabilities.setCapability("appActivity", appActivity);
-
-        URL url = new URL(appiumUrl);
-        androidDriver = new AndroidDriver(url, desiredCapabilities);
-
+    @BeforeClass
+    public void setUpClass(){
         Home_Page home_page = new Home_Page(androidDriver);
         home_page.clickMyLemon();
-        home_page.clickPortraitLoginBy();
-
+        home_page.clickPortraitLogin();
     }
 
 
-    @Test(dataProvider = "getLoginFailureDatas")
+
+    @Test(dataProviderClass = LoginDatas.class,dataProvider = "getLoginFailureDatas")
     public void test_login_failure(String mobilephone, String password, String toastText) throws InterruptedException {
 
         Login_Page login_page = new Login_Page(androidDriver);
@@ -66,13 +44,19 @@ public class Login_Test {
     }
 
     @Test
-    public void test_login_success(){
+    public void test_login_success() throws InterruptedException {
 
         Login_Page login_page = new Login_Page(androidDriver);
-        login_page.inputMobilephone("13323234545");
-        login_page.inputPassword("234545");
+        login_page.inputMobilephone(Constants.CORRECT_MOBILEPHONE);
+        login_page.inputPassword(Constants.CORRECT_PASSWORD);
         login_page.clickLogin();
 
+        Thread.sleep(5000);
+        //断言1--根据跳转之后页面的页面名activityName
+        String expectedValue01 = ".activity.MainActivity";
+        String actualValue01 = androidDriver.currentActivity();
+        Assert.assertEquals(actualValue01, expectedValue01);
+        //断言2--根据跳转之后的页面是否有“歪歪”用户名
         Home_Page home_page =new Home_Page(androidDriver);
         String actualValue02 = home_page.getUserName();
         String expectedValue02 = "歪歪";
@@ -82,13 +66,7 @@ public class Login_Test {
 
     }
 
-    @DataProvider
-    public Object[][] getLoginFailureDatas() {
-        Object[][] datas = {{"13323234545", "123456", "错误的账号信息"},
-                {"1332323454", "123456", "手机号码格式不正确"},
-                {"", "123456", "手机号码或密码不能为空"}};
-        return datas;
-    }
+
 }
 
 

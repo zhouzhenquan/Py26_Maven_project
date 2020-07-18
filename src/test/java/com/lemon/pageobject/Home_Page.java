@@ -2,6 +2,7 @@ package com.lemon.pageobject;
 
 import com.lemon.common.Base_Page;
 import io.appium.java_client.android.AndroidDriver;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,6 +15,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @Copyright:杭州盛和游戏网络技术有限公司. All rights reserved.
  */
 public class Home_Page extends Base_Page {
+    //实例化logger日志对象
+    private Logger logger = Logger.getLogger(Home_Page.class);
     public AndroidDriver androidDriver;
 
     public Home_Page(AndroidDriver androidDriver) {
@@ -29,19 +32,20 @@ public class Home_Page extends Base_Page {
 
     //点击我的柠檬
     public void clickMyLemon() {
-        waitElementClickable(androidDriver,myLemonBy).click();
+        click(androidDriver,myLemonBy);
     }
 
     //点击头像登录
-    public void clickPortraitLoginBy() {
-        waitElementClickable(androidDriver,portraitLoginBy).click();
+    public void clickPortraitLogin() {
+        click(androidDriver,portraitLoginBy);
     }
 
     //获取用户名
-    public String getUserName(){
-        return waitElementClickable(androidDriver,userNameBy).getText();
+    public String getUserName() {
+        String text = waitElementClickable(androidDriver, userNameBy).getText();
+        logger.info("获取用户名：" + text);
+        return text;
     }
-
 
 
 }

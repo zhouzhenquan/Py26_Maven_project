@@ -2,6 +2,7 @@ package com.lemon.pageobject;
 
 import com.lemon.common.Base_Page;
 import io.appium.java_client.android.AndroidDriver;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @Copyright:杭州盛和游戏网络技术有限公司. All rights reserved.
  */
 public class Login_Page extends Base_Page {
+    private Logger logger = Logger.getLogger(Login_Page.class);
     public AndroidDriver androidDriver;
 
     public Login_Page(AndroidDriver androidDriver) {
@@ -29,17 +31,17 @@ public class Login_Page extends Base_Page {
 
     // 输入手机号码
     public void inputMobilephone(String data) {
-        waitElementVisible(androidDriver,mobilephoneBy).sendKeys(data);
+        type(androidDriver,mobilephoneBy,data);
     }
 
     //输入登录密码
     public void inputPassword(String data) {
-        waitElementVisible(androidDriver,passwordBy).sendKeys(data);
+        type(androidDriver,passwordBy,data);
     }
 
     //点击登录
     public void clickLogin() {
-        waitElementClickable(androidDriver,loginBy).click();
+        click(androidDriver,loginBy);
     }
 
 
