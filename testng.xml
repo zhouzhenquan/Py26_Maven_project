@@ -9,7 +9,8 @@
         <parameter name="appActivity" value="com.lemon.lemonban.activity.WelcomeActivity"/>
         <parameter name="appiumUrl" value="http://127.0.0.1:4723/wd/hub"/>
         <classes>
-            <class name="com.lemon.testcase.Login_Test" />
+            <class name="com.lemon.testcase.ScreenShotTest" />
+
         </classes>
     </test>
 </suite>
