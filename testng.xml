@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="套件" >
+<suite name="套件">
     <!--    柠檬班app-->
+    <!--监听器的配置，让监听类生效-->
+    <listeners>
+        <listener class-name="com.lemon.listener.TestResultListener"></listener>
+    </listeners>
+
     <test name="Test">
         <parameter name="deviceName" value="127.0.0.1:62001"/>
         <parameter name="platformName" value="Android"/>
@@ -9,7 +14,7 @@
         <parameter name="appActivity" value="com.lemon.lemonban.activity.WelcomeActivity"/>
         <parameter name="appiumUrl" value="http://127.0.0.1:4723/wd/hub"/>
         <classes>
-            <class name="com.lemon.testcase.ScreenShotTest" />
+            <class name="com.lemon.testcase.ScreenShotTest"/>
 
         </classes>
     </test>

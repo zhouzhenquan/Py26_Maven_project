@@ -3,9 +3,13 @@ package com.lemon.common;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.apache.commons.io.FileUtils;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author 周振全
@@ -81,6 +85,30 @@ public class Base_Page {
         logger.info("获取元素【" + by + "】文本值【" + text + "】");
         return text;
 
+    }
+
+
+    /**
+     * 截图--保存到本地的
+     */
+    public static void takeScreenshot(AndroidDriver androidDriver,String path){
+        //OutputType.FILE --》 返回的是file类型的图片
+        File srcFile = androidDriver.getScreenshotAs(OutputType.FILE);
+        //保存到本地 file拷贝到目标地址上去
+        File descFile = new File(path);
+        try {
+            FileUtils.copyFile(srcFile,descFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 截图--返回一个byte[]数组
+     */
+    public static byte[] takeScreenshot(AndroidDriver androidDriver){
+        //OutputType.BYTES --》 返回的是byte[]类型的图片
+        return androidDriver.getScreenshotAs(OutputType.BYTES);
     }
 
 
