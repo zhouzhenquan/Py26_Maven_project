@@ -12,6 +12,10 @@ import org.testng.ITestResult;
  * @date 2020/7/25 16:41
  * @Copyright:杭州盛和游戏网络技术有限公司. All rights reserved.
  */
+
+/*
+测试结果监听类
+ */
 public class TestResultListener implements IHookable {
 
     @Override
