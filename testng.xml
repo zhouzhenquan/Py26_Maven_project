@@ -4,7 +4,10 @@
     <!--    柠檬班app-->
     <!--监听器的配置，让监听类生效-->
     <listeners>
+        <!--截图嵌入到allure报表-->
         <listener class-name="com.lemon.listener.TestResultListener"></listener>
+                <!--重试机制的全局生效-->
+        <listener class-name="com.lemon.listener.RetryListsener"></listener>
     </listeners>
 
     <test name="Test">
@@ -14,7 +17,7 @@
         <parameter name="appActivity" value="com.lemon.lemonban.activity.WelcomeActivity"/>
         <parameter name="appiumUrl" value="http://127.0.0.1:4723/wd/hub"/>
         <classes>
-            <class name="com.lemon.testcase.ScreenShotTest"/>
+            <class name="com.lemon.testcase.Login_Test"/>
 
         </classes>
     </test>
