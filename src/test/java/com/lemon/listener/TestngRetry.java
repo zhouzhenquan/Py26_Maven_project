@@ -40,7 +40,6 @@ public class TestngRetry implements IRetryAnalyzer {
         }else{
             return false;
         }
-0.0
     }
 }
 
